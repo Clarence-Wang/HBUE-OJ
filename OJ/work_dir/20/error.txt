@@ -1,0 +1,4 @@
+main.cpp:1:20: fatal error: iostreM<: 没有那个文件或目录
+ #include <iostreM<>
+                    ^
+compilation terminated.

@@ -1,0 +1,4 @@
+main.cpp:1:25: fatal error: iostrha  aaaa: 没有那个文件或目录
+ #include <iostrha  aaaa>
+                         ^
+compilation terminated.

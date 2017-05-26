@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <link href="/static/CSS/cover.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- 模态框 -->
+<div class="modal fade" id="myEmail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel" style="color: #333">联系方式</h4>
+            </div>
+            <div class="modal-body">
+
+                <h3 style="color: #333">648808690@qq.com</h3>
+                <hr>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{#导航栏#}
+<nav class="navbar navbar-toggleable-md navbar-dark bg-inverse">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand mb-0" href="">HBUE_OJ</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/problem/1">题目 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/submit/1">提交</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/ranking">排名</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">帮助</a>
+            </li>
+        </ul>
+        <div class="navbar-nav">
+            <div class="nav-item active">
+
+                {% if request.user.is_authenticated %}
+                    <span class="navbar-text">
+                        Welcome,<a href="/accounts/userHomePage" style="text-decoration: none">
+                        {{ user.userprofile.real_name }} </a> |
+                        <a href="/accounts/logout" style="text-decoration: none">安全退出</a>
+                    </span>
+                {% else %}
+                    <a class="nav-link" href="/accounts/login">登录</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="cover-container">
+
+    <div class="inner cover">
+        <h1 class="cover-heading">Welcome to HBUE OJ.
+            {% if request.user.is_authenticated %}
+                {{ user.userprofile.real_name }}
+            {% endif %}
+        </h1>
+
+        <div style="padding-bottom: 20px">
+            <div class="card text-center card-inverse" style="background-color: #333; border-color: #333">
+                <div class="card-header">
+                    最近公告
+                </div>
+                <div class="card-block">
+                    <h4 class="card-title">第八届蓝桥杯决赛</h4>
+                    <p class="card-text">第八届蓝桥杯决赛将于五月二十八日于北京举行</p>
+                    <a href="http://www.lanqiao.org/" target="_blank" class="btn btn-primary">蓝桥杯官网</a>
+                </div>
+                <div class="card-footer text-muted">
+                    2天前
+                </div>
+            </div>
+        </div>
+
+        {% if not request.user.is_authenticated %}
+            <p class="lead">
+                <a href="/accounts/login" class="btn btn-lg btn-secondary">Get Started</a>
+            </p>
+            {% else %}
+            <a href="/problem/1" class="btn btn-lg btn-secondary"> 题目列表</a>
+        {% endif %}
+
+    </div>
+
+    <div class="mastfoot">
+        <div class="inner">
+            <p>HBUE OJ</a>, by <a href="" data-toggle="modal"
+                                data-target="#myEmail">@王晨懿</a>.</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+
+<script> $('#myEmail').modal(options)
+</script>
+</body>
+</html>

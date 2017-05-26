@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Problem</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+
+    <!-- Custom styles for this template -->
+    <!--<link href="CSS/problem.css" rel="stylesheet">-->
+
+</head>
+
+<body>
+
+{# navbar #}
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand mb-0" href="/">HBUE_OJ</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="">题目 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/submit/1">提交</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/ranking">排名</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">帮助</a>
+            </li>
+        </ul>
+        <div class="navbar-nav">
+            <div class="nav-item active">
+                {% if request.user.is_authenticated %}
+                    <span class="navbar-text">
+                        Welcome,<a href="/accounts/userHomePage" style="text-decoration: none">
+                        {{ user.userprofile.real_name }} </a> |
+                        <a href="/accounts/logout" style="text-decoration: none">安全退出</a>
+                    </span>
+                {% else %}
+                    <a class="nav-link" href="/accounts/login">登录</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="padding-top: 50px">
+    <div class="row">
+        <!-- 表 -->
+        <div class="col-md-9 col-offset-md-1">
+
+            <h1>Problems</h1>
+
+            {# 查询表单 #}
+            <div class="float-right">
+                <form class="form-inline" style="padding-bottom: 15px">
+                    <div style="padding-right: 5px">
+                        <input type="text" style="width: 220px" class="form-control form-control-sm" name="search_problem"
+                               placeholder="查找题号、题目、来源、难度">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </form>
+            </div>
+
+            {# 题目列表 #}
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>题目</th>
+                    <th>来源</th>
+                    <th>难度</th>
+                    <th>AC/提交</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for i in cur_page_problem %}
+                    <tr>
+                        <td>{{ i.id }}</td>
+                        <td>
+                            <a href="{{ i.id }}">{{ i.title }}</a>
+                        </td>
+                        <td>{{ i.source }}</td>
+                        <td>{{ i.level }}</td>
+                        <td>{{ i.accept_times }}/{{ i.submit_times }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+            {# 翻页 #}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    {% if cur_page_problem.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="/problem/{{ cur_page_problem.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            {% endif %}
+
+                {% for p in page %}
+                    <li class="page-item"><a class="page-link" href="/problem/{{ p }}">{{ p }}</a></li>
+                {% endfor %}
+
+            {% if cur_page_problem.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="/problem/{{ cur_page_problem.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            {% endif %}
+                </ul>
+            </nav>
+        </div>
+
+        <!-- 分类 -->
+        <div class="col-md-3  col-offset-md-11" style="padding-left: 50px;padding-top: 95px;">
+
+            <ul class="list-group">
+                {% for i in classify_list %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="/problem/1/?classify={{ i.classify }}" style="text-decoration: none">{{ i.classify }}</a>
+                    <span class="badge badge-default badge-pill">{{ i.number }}</span>
+                </li>
+
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+</body>
+</html>

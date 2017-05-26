@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User Home Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+
+
+</head>
+
+<body>
+<!-- 模态框-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <div class="modal-body">
+
+                <form method="POST" action=".">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_old_password" class="control-label">原密码</label>
+                        <input type="password" class="form-control" id="id_old_password" name="old_password"
+                               placeholder="Old Password" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_new_password" class="control-label">新密码</label>
+                        <input type="password" class="form-control" id="id_new_password" name="new_password"
+                               placeholder="New Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_confirm_password" class="control-label">确认密码</label>
+                        <input type="password" class="form-control" id="id_confirm_password" name="confirm_password"
+                               placeholder="Confirm Password" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- navbar-->
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand mb-0" href="/">HBUE_OJ</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/problem/1">题目 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/submit/1">提交</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/ranking">排名</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">帮助</a>
+            </li>
+        </ul>
+        <div class="navbar-nav">
+            <div class="nav-item active">
+                <span class="navbar-text">
+                    Welcome,<a href="" style="text-decoration: none"> {{ user.userprofile.real_name }} </a>|
+                        <a href="/accounts/logout" style="text-decoration: none"> 安全退出</a>
+                </span>
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container" style="max-width: 800px; margin: 0 auto; padding-top: 50px;">
+
+    <div class="jumbotron">
+        <h1>
+            {{ user.userprofile.real_name }}
+        </h1>
+        <hr>
+        <br>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card card-block">
+                    <h3 class="card-title">
+                        个人信息
+                    </h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">用户名 : {{ user.username }}</li>
+                        <li class="list-group-item">邮箱 : {{ user.email }}</li>
+                        <li class="list-group-item">班级 : {{ user.userprofile.student_class }}</li>
+                        <li class="list-group-item">学号 : {{ user.userprofile.student_id }}</li>
+                    </ul>
+
+                    <div class="card-block">
+                        <button type="button" class="btn btn-primary btn-block" data-toggle="modal"
+                                data-target="#myModal">修改密码
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="card card-block">
+                    <h3 class="card-title">OJ数据</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">AC: {{ user.userprofile.ac_times }}</li>
+                        <li class="list-group-item">Submit:{{ user.userprofile.submit_times }}</li>
+                        <li class="list-group-item">排名:{{ user.userprofile.ranking }}</li>
+                        <li class="list-group-item">奖章:暂无奖章</li>
+                    </ul>
+                    <div class="card-block">
+                        <a href="/problem" class="btn btn-primary btn-block">继续做题</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+
+
+<!-- Bootstrap core JavaScript
+
+================================================== -->
+
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+<script> $('#myModal').modal(options)
+</script>
+
+</body>
+</html>

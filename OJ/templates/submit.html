@@ -1,0 +1,161 @@
+{% load mytags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>ACRanking</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+</head>
+
+<body style="padding-top: 30px">
+
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand mb-0" href="/">HBUE_OJ</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/problem/1">题目 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/submit/1">提交</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/ranking">排名</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">帮助</a>
+            </li>
+        </ul>
+        <div class="navbar-nav">
+            <div class="nav-item active">
+                {% if request.user.is_authenticated %}
+                    <span class="navbar-text">
+                        Welcome,<a href="/accounts/userHomePage" style="text-decoration: none">
+                        {{ user.userprofile.real_name }} </a> |
+                        <a href="/accounts/logout" style="text-decoration: none">安全退出</a>
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div  style="max-width: 900px;margin: 0 auto;padding-top: 50px">
+    <h2>Submit</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-inverse">
+            <tr>
+                <th>时间</th>
+                <th>提交编号</th>
+                <th>题目编号</th>
+                <th>语言</th>
+                <th>结果</th>
+                <th>用时MS</th>
+                <th>内存</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in cur_page_submit %}
+                <tr {% if i.result == "Accepted" %} class="table-success"{% elif i.result == "Wrong Answer" %} class="table-danger"{% endif %}>
+                    <td>{{ i.submit_time }}</td>
+                    <td>{{ i.id }}</td>
+                    <td>
+                        <a href="/problem/{{ i.problem_id_id }}">
+                            {{ i.problem_id_id }}
+                        </a>
+                    </td>
+                    <td>{{ i.language }}</td>
+
+                    <td>
+                        {% if i.result == "Accepted" %}
+                            <h5>
+                                <a href="{{ i.id }}" class="badge badge-pill badge-success">Accepted</a>
+                            </h5>
+                        {% elif i.result == "Wrong Answer" %}
+                            <h5>
+                                <a href="{{ i.id }}" class="badge badge-danger">{{ i.result }}</a>
+                            </h5>
+                            {% elif i.result == "Waiting" %}
+                            <h5>
+                                <span class="badge badge-info">{{ i.result }}</span>
+                            </h5>
+                        {% else %}
+                            <h5>
+                                <a href="{{ i.id }}" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="{{ errors|key:i.id }}">{{ i.result }}</a>
+                            </h5>
+                        {% endif%}
+                    </td>
+
+
+                    <td>{{ i.take_time }}</td>
+                    <td>{{ i.take_memory }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+
+            {% if cur_page_submit.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="/submit/{{ cur_page_submit.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            {% endif %}
+
+                {% for p in page %}
+                    <li class="page-item"><a class="page-link" href="/submit/{{ p }}">{{ p }}</a></li>
+                {% endfor %}
+
+            {% if cur_page_submit.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="/submit/{{ cur_page_submit.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            {% endif %}
+            </ul>
+        </nav>
+</div>
+
+<div style="height: 150px"></div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+</body>
+</html>

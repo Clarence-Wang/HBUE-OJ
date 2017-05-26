@@ -1,0 +1,11 @@
+Main.java:4: 错误: 找不到符号
+        Scanner in=new Scanner(System.in);
+        ^
+  符号:   类 Scanner
+  位置: 类 Main
+Main.java:4: 错误: 找不到符号
+        Scanner in=new Scanner(System.in);
+                       ^
+  符号:   类 Scanner
+  位置: 类 Main
+2 个错误

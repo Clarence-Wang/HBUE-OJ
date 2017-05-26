@@ -1,0 +1,266 @@
+{% load mytags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>A+B Problem</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+
+    <!-- Custom styles for this template -->
+    <!--<link href="CSS/problem.css" rel="stylesheet">-->
+    <style type="text/css">
+        p {
+            padding-bottom: 15px;
+        }
+
+        h4 {
+            padding-top: 5px;
+        }
+
+        h1 {
+            padding-bottom: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand mb-0" href="/">HBUE_OJ</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/problem/1">题目 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/submit/1">提交</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/ranking">排名</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">帮助</a>
+            </li>
+        </ul>
+        <div class="navbar-nav">
+            <div class="nav-item active">
+                {% if request.user.is_authenticated %}
+                    <span class="navbar-text">
+                        Welcome,<a href="/accounts/userHomePage" style="text-decoration: none">
+                        {{ user.userprofile.real_name }} </a> |
+                        <a href="/accounts/logout" style="text-decoration: none">安全退出</a>
+                    </span>
+                {% else %}
+                    <a class="nav-link" href="/accounts/login">登录</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<ul class="nav nav-tabs" id="myTab" role="trblist" style="padding-top: 50px; margin: 0 auto; max-width: 900px;">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+           aria-expanded="true">题目</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="submit-tab" data-toggle="tab" href="#submit" role="tab" aria-controls="submit">我的提交</a>
+    </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="container" style="padding-top: 50px; margin: 0 auto; max-width: 900px;">
+            <!-- 题目信息 -->
+            <div>
+                <h1>{{ cur_pro.title }}</h1>
+                <div class="d-flex justify-content-around ">
+                    <div class="text-success">Time Limit:&nbsp; {{ cur_pro.time_limit }}MS</div>
+                    <div class="text-success">Memory Limit:&nbsp;{{ cur_pro.memory_limit }}KB</div>
+                    <div class="text-success">
+                        AC:&nbsp;{{ cur_pro.accept_times }}/Submit:&nbsp;{{ cur_pro.submit_times }}</div>
+                </div>
+                <hr>
+                <br>
+
+            </div>
+
+            <!-- 题目正文-->
+            <div style="padding-left: 20px">
+                <h4>题目描述</h4>
+                <p>{{ cur_pro.content }}</p>
+
+                <h4> 输入</h4>
+                <p>{{ cur_pro.input_request }}</p>
+
+                <h4>输出</h4>
+                <p>{{ cur_pro.output_request }}</p>
+
+                <h4>样例输入</h4>
+                <p>{{ cur_pro.input_sample }}</p>
+
+                <h4>样例输出</h4>
+                <p>{{ cur_pro.output_sample }}</p>
+            </div>
+
+            <hr>
+
+            <div style="padding-left: 15px">
+                <h4>提交代码</h4>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="language">选择语言: &nbsp </label>
+
+                        {#                <select class="custom-select" id="language" name="language">#}
+                        {#                    <option value="gcc">gcc</option>#}
+                        {#                    <option value="g++">g++</option>#}
+                        {#                    <option value="java">java</option>#}
+                        {#                    <option value="python2">python2</option>#}
+                        {#                    <option value="python3">python3</option>#}
+                        {#                </select>#}
+
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="language" id="inlineRadio1"
+                                       value="gcc" checked> gcc
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="language" id="inlineRadio2"
+                                       value="g++"> g++
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="language" id="inlineRadio3"
+                                       value="java"> java
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="language" id="inlineRadio3"
+                                       value="python2"> python2
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="code" rows="20"></textarea>
+                    </div>
+                    <div class="form-group">
+
+                        {% if not request.user.is_authenticated %}
+                            <button type="submit" class="btn btn-primary" disabled>提交</button>
+                            <p style="color: red;">请先登录</p>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary">提交</button>
+                        {% endif %}
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="tab-pane fade" id="submit" role="tabpanel" aria-labelledby="submit-tab">
+        {% if not request.user.is_authenticated %}
+            <div class="container" style="padding-top: 50px; margin: 0 auto; max-width: 900px;">
+                <h2><a href="/accounts/login">请登录</a></h2>
+            </div>
+        {% else %}
+            <div class="container" style="padding-top: 50px; margin: 0 auto; max-width: 900px;">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>时间</th>
+                            <th>提交编号</th>
+                            <th>结果</th>
+                            <th>用时MS</th>
+                            <th>内存</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in cur_pro_submit %}
+                            <tr {% if i.result == "Accepted" %}
+                                class="table-success"{% elif i.result == "Wrong Answer" %}
+                                class="table-danger"{% endif %}>
+                                <td>{{ i.submit_time }}</td>
+                                <td>{{ i.id }}</td>
+
+                                <td>
+                                    {% if i.result == "Accepted" %}
+                                        <h5>
+                                            <span class="badge badge-pill badge-success">Accepted</span>
+                                        </h5>
+                                    {% elif i.result == "Wrong Answer" %}
+                                        <h5>
+                                            <span class="badge badge-danger">{{ i.result }}</span>
+                                        </h5>
+                                    {% elif i.result == "Waiting" %}
+                                        <h5>
+                                            <span class="badge badge-info">{{ i.result }}</span>
+                                        </h5>
+                                    {% else %}
+                                        <h5>
+                                            <span class="badge badge-warning" data-toggle="tooltip" data-placement="right"
+                                                  title="请移至提交页面查看具体出错情况">{{ i.result }}</span>
+                                        </h5>
+                                    {% endif %}
+
+                                </td>
+                                <td>{{ i.take_time }}</td>
+                                <td>{{ i.take_memory }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        {% endif %}
+    </div>
+</div>
+
+<div style="height: 200px"></div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+</body>
+</html>

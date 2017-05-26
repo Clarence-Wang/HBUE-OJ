@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sign in</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/CSS/signin.css" rel="stylesheet">
+</head>
+
+<body>
+<!-- navbar-->
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand mb-0" href="/">HBUE_OJ</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/problem/1">题目 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/submit/1">提交</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/ranking">排名</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">帮助</a>
+            </li>
+        </ul>
+        <div class="navbar-nav">
+            <div class="nav-item active">
+                <a class="nav-link" href="">登录</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container" style="padding-top: 50px; margin: 0 auto; max-width: 350px">
+
+
+    <form class="form-signin" action="" method="POST">
+        {# 防止跨站登录 #}
+        {% csrf_token %}
+        <h2 class="form-signin-heading">请登录</h2>
+
+        <label for="id_username" class="sr-only">用户名</label>
+        <input type="text" id="id_username" name="username" class="form-control" placeholder="Username" required
+               autofocus>
+
+        <label for="id_password" class="sr-only">密码</label>
+        <input type="password" id="id_password" name="password" class="form-control" placeholder="Password" required>
+
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+        <a class="btn btn-danger btn-lg btn-block" href="/accounts/register" role="button">注册</a>
+
+    </form>
+
+    {# 错误信息 #}
+    {% if form.errors %}
+        <hr>
+        <p style="color: red;">
+            {{ form.errors }}
+        </p>
+    {% endif %}
+
+    {% if errors %}
+        <p style="color: red;">
+            {{ errors }}
+        </p>
+    {% endif %}
+
+</div> <!-- /container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"
+        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
